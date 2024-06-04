@@ -15,6 +15,7 @@ import competitors
 import investors
 import graph
 import business_generator
+import company_info
 
 app = FastAPI()
 
@@ -167,6 +168,16 @@ def generate_pdf(market_niche: str ):
     print("PDF generated successfully!")
     # Return the PDF file as response
     return FileResponse("sample.pdf", media_type='application/pdf')
+
+@app.post("/get_startup_info")
+async def analyze_market_info(market_niche: str):
+    try:
+        startup_info = company_info.get_startup_info(market_niche)
+        return startup_info
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 if __name__ == "__main__":
     import uvicorn

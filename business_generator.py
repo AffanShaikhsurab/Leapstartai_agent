@@ -223,7 +223,7 @@ def generate_html(complete: str):
 
     prompt = PromptTemplate(
         template="""
-        Craft a sleek and contemporary medium  like article  website (HTML file with inline [tailwind CSS]) use minimilistic gradient effects don't use vibrant colors , background color , shadows , animation , padding , text-alignment , and so much more...[ use minimilistic colors and use emojies]  tailored to the provided data [make sure to include complete data ]: {complete}""",
+        Craft a sleek and contemporary medium  like article  website (HTML file with inline [tailwind CSS]) use minimilistic gradient effects , background color , shadows , animation , padding , text-alignment , and so much more...[ use minimilistic colors and use emojies]  tailored to the provided data [make sure to include complete data ]: {complete}""",
         input_variables=["complete"],
                 partial_variables={"format_instructions": parser.get_format_instructions()},
 
