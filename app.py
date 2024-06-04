@@ -9,6 +9,10 @@ import path_to_mvp
 import poter_forces
 import target_market
 import competitor_analysis
+import competitors
+import investors
+import graph
+
 app = FastAPI()
 
 app.add_middleware(
@@ -96,6 +100,15 @@ async def analyze_market_info(market_niche: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/analyze_investors")
+async def analyze_investors_info(market_niche: str):
+    try:
+        analysis = investors.analyze_investors(market_niche)
+        return {"investor_analysis": analysis}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/analyze_target_market")
 async def analyze_market_info(market_niche: str):
     try:
@@ -109,6 +122,25 @@ async def analyze_competitors_info(market_niche: str):
     try:
         analysis = competitor_analysis.analyze_competitors(market_niche)
         return {"competitor_analysis": analysis}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/get_competitors")
+async def analyze_competitors_info(market_niche: str):
+    try:
+        analysis = competitors.analyze_competitors(market_niche)
+        return {"competitor_analysis": analysis}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/generate_graph")
+async def analyze_market_info(market_niche: str):
+    try:
+        competitors = graph.get_competitors(market_niche)
+        features = graph.get_features(market_niche)
+        feature_list = [f["feature"] for f in features]
+        startups = graph.generate_startup_data(feature_list, market_niche, competitors)
+        return {"features": features, "startup_data": startups}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
