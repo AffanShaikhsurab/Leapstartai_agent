@@ -1,5 +1,7 @@
 import json
+import os
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.prompts import PromptTemplate
@@ -12,6 +14,7 @@ import competitor_analysis
 import competitors
 import investors
 import graph
+import business_generator
 
 app = FastAPI()
 
@@ -144,6 +147,26 @@ async def analyze_market_info(market_niche: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/generate_pdf")
+def generate_pdf(market_niche: str ):
+    report = business_generator.generate_comprehensive_report_from_llm(market_niche)
+    html = business_generator.generate_html(report)
+    # Load the Jinja2 template
+    print(html)
+    file_path = "./sample.html"
+
+# Write the HTML string to the file
+    with open(file_path, "w") as file:
+        file.write(html)
+
+    # Convert HTML to PDF
+    path = os.path.abspath('sample.html')
+    business_generator.converter.convert(f'file:///{path}', 'sample.pdf')
+    # generate_pdf_from_html(html, pdf_file_path)
+
+    print("PDF generated successfully!")
+    # Return the PDF file as response
+    return FileResponse("sample.pdf", media_type='application/pdf')
 
 if __name__ == "__main__":
     import uvicorn
