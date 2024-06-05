@@ -30,7 +30,7 @@ class Competitor(BaseModel):
 
 class Competitors(BaseModel):
     list_of_competitor: List[Competitor]
-    list_of_indirect_comp : List[str]
+    list_of_indirect_competitor : List[str]
 
 def analyze_competitors(market_niche: str):
     parser = PydanticOutputParser(pydantic_object=Competitors)
@@ -50,7 +50,10 @@ def analyze_competitors(market_niche: str):
             - ...
         - Market Share: (percentage or description)
 
-        list of indirect competitors
+        - list of indirect competitors:
+            - Statement 1
+            - Statement 2
+            - ...
         Give data as JSON.
         """,
         input_variables=["market_niche"],
@@ -73,3 +76,6 @@ def analyze_competitors(market_niche: str):
 
     return output
 
+
+
+analyze_competitors("edtech")
