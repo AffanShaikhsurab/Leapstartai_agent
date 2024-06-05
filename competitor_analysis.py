@@ -50,6 +50,7 @@ def analyze_competitors(market_niche: str):
             - ...
         - Market Share: (percentage or description)
 
+        list of indirect competitors
         Give data as JSON.
         """,
         input_variables=["market_niche"],
